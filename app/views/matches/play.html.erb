@@ -21,7 +21,7 @@ $(document).ready(function() {
 	var kibbitz = function(msg) {
 		var current_length = $("#kibbitz li").size();
 		if (current_length >= 5)
-			$("#console li:eq(0)").remove();
+			$("#kibbitz li:eq(0)").remove();
 		$("<li>").html(msg).appendTo($("#kibbitz"));
 	};
 	
@@ -47,6 +47,14 @@ $(document).ready(function() {
 </script>
 
 <div id="board">
+	<div id="card_template" class="card" style="left:30em;top:0em;display:none;z-index:10">
+	  <div class="front">
+	    <div class="index"></div>
+		<img class="face" src="" alt="" width="80" height="130" />
+		<div class="spot"></div>
+		<div class="ace"></div>
+	  </div> 
+	</div>
 </div>
 
 <div id="chat">
