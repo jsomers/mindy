@@ -1,0 +1,56 @@
+<script src="http://localhost:8080/application.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+	// Hook up connection.
+	juggernaut.subscribe("<%= @match_id %>", function(data) {
+		delegate(data);
+	});
+
+	// Delegate data coming from the server depending on what type of action
+	// is implied.
+	var delegate = function(data) {
+		data = JSON.parse(data);
+		switch (data.type) {
+			case "message":
+				kibbitz("<em>(" + data.sender + "): </em>" + data.content);
+				break;
+		}
+	};
+	
+	var kibbitz = function(msg) {
+		var current_length = $("#kibbitz li").size();
+		if (current_length >= 5)
+			$("#console li:eq(0)").remove();
+		$("<li>").html(msg).appendTo($("#kibbitz"));
+	};
+	
+	// Publish events and actions to the server.
+	var pub = function(url, data) {
+		$.post("/matches/" + url, Object.extend({id: "<%= @match_id %>"}, data));
+	};
+	
+	// Send chat messages.
+	message = function(content) {
+		pub("message", {content: content});
+	};
+	
+	$("#console input").keydown(function(e) {
+		if (e.keyCode == "13") {
+			message($(this).val());
+			$(this).val("");
+			return false;
+		};
+	});
+});
+
+</script>
+
+<div id="board">
+</div>
+
+<div id="chat">
+	<ul id="kibbitz">
+	</ul>
+	<div id="console">&gt;&gt; <input type="text"/></div>
+</div>

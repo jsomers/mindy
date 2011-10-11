@@ -1,0 +1,30 @@
+#chat {
+    width: 500px;
+}
+
+ul#kibbitz li {
+    list-style: none;
+    border-bottom: 1px dotted #ccc;
+    padding: 10px;
+}
+
+ul#kibbitz li em {
+    color: #aaa;
+}
+
+#console {
+    margin-left: 40px;
+    display: inline;
+}
+
+#console input {
+    font-family: 'Courier New';
+    display: inline;
+    width: 400px;
+    margin: 0;
+    padding: 10px;
+    font-size: 13.1px;
+    border-width: 0;
+    outline-width: 0;
+    clear: both;
+}

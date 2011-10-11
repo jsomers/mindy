@@ -30,8 +30,6 @@ Mindycoat::Application.routes.draw do
   #     resources :comments, :sales
   #     resource :seller
   #   end
-  
-  resources :matches
 
   # Sample resource route with more complex sub-resources
   #   resources :products do
@@ -51,6 +49,9 @@ Mindycoat::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
+  
+  match 'matches/play/:id' => "matches#play"
+  post 'matches/message' => "matches#message"
 
   # See how all your routes lay out with "rake routes"
 
