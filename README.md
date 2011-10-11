@@ -6,10 +6,11 @@
 
 ## The Rules of Mindy Coat
 
-* Four players, opposite sides are in teams.
-* Deal 5 cards each, one-by-one starting left of the dealer.
-* Left of the dealer calls trump looking at those 5.
-* Dealer deals the last 8 cards out (starts on the left).
-* Highest card of the trick wins, unless a trump is thrown, in which case the highest trump wins.
-* Team that takes the most tens wins, unless each takes two, in which case the total number of tricks is counted.
-* (Must follow suit unless you don't have it.)
+* Four players, opposite sides are in teams. The action proceeds clockwise.
+* Deal five cards each, starting with the player left of the dealer.
+* That player calls trump based on his first five cards. No one else can see their five.
+* Deal the rest of the cards.
+* The rules follow those of a normal [trick-taking game](http://en.wikipedia.org/wiki/Trick-taking_game).
+* Each trick counts for one point, and each ten counts for one additional point.
+* The team with the most points at the end of thirteen tricks wins the round.
+* Taking all four tens is called a "Mindy Coat" and immediately ends the game.
