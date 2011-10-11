@@ -1,10 +1,10 @@
-## How to start the application for development ##
+## How to start the application for development
 
 1. Redis should be running. If it's not, try `redis-server /usr/local/etc/redis.conf`.
 2. Start Juggernaut with `juggernaut`.
 3. Start Rails with `rails s`.
 
-## The Rules of Mindy Coat ## 
+## The Rules of Mindy Coat
 
 * Four players, opposite sides are in teams.
 * Deal 5 cards each, one-by-one starting left of the dealer.
