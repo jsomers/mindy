@@ -6,6 +6,15 @@ class MatchesController < ApplicationController
   def play
   end
   
+  def register
+    unless (match = rget(@match_id))
+      match = Match.new(@match_id)
+    end
+    match.add_player(params[:handle])
+    # TODO: on fourth player, fire a "chooseTrump" directive to the current player.
+    publish(@match_id, match.to_json)
+  end
+  
   def message
     publish(@match_id, {
       :type => "message",

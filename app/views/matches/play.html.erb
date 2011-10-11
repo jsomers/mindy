@@ -1,11 +1,20 @@
 <script src="http://localhost:8080/application.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript" charset="utf-8">
+
+// Initialize the all-important game object, where all the card data and such
+// is stored.
+var game = {};
+
 $(document).ready(function() {
 	// Hook up connection.
-	juggernaut.subscribe("<%= @match_id %>", function(data) {
-		delegate(data);
-	});
+	var jug = new Juggernaut;
+    jug.subscribe(channel, function(data) {
+        delegate(data);
+    });
+    jug.on("connect", function() {
+        pub("register", {});
+    });
 
 	// Delegate data coming from the server depending on what type of action
 	// is implied.
