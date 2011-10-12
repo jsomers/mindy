@@ -54,6 +54,7 @@ Mindycoat::Application.routes.draw do
   post 'matches/message' => "matches#message"
   post 'matches/register' => "matches#register"
   post 'matches/part' => "matches#part"
+  post 'matches/choose_trump' => "matches#choose_trump"
   
   match 'handle' => "handles#handle"
   post 'handles/set_handle' => "handles#set_handle"

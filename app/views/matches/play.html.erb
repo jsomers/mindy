@@ -6,6 +6,7 @@
 // is stored.
 var GAME = {};
 var HANDLE = "<%= @handle %>";
+var SUITS = {"s": "Spades", "h": "Hearts", "c": "Clubs", "d": "Diamonds"};
 
 $(document).ready(function() {
 
@@ -37,6 +38,15 @@ $(document).ready(function() {
 				break;
 			case "part":
 				logger("<code>" + data.player + "</code> has left the game.");
+				break;
+			case "trump_chosen":
+				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong>. Let the game begin!");
+				// TODO: start_game() draws each player's hand.
+				// TODO: what happens when a player disconnects and reconnects in the middle of a game? don't break other earlier disconnect / reconnect behavior.
+				// TODO: choose_card event: remove that card from the player's hand (on server); change current player.
+				// TODO: send message to other users saying which card has been played. Alert new current player that it's their turn.
+				// TODO: show current trick in progress instead of writing chat messages.
+				// TODO: what happens when a trick is finished? adjudicate the trick, update the scores, and set the current player.
 				break;
 		}
 	};
@@ -73,12 +83,11 @@ $(document).ready(function() {
 		};
 	});
 	
-	// 
 	prompt_to_choose_trump = function() {
 		draw_hand(my_hand());
 		alert("Please choose trump by double clicking the card from your strongest suit.");
 	}
-	// Helper method to get my hand.
+
 	my_hand = function() {
 		return GAME.hands[HANDLE];
 	};
@@ -86,6 +95,11 @@ $(document).ready(function() {
 	// Remove me from the game when I close the window.
 	$(window).unload(function () {
 	  pub("part", {handle: HANDLE});
+	});
+	
+	$(".card").live("dblclick", function() {
+		if (GAME.trump == null)
+			pub("choose_trump", {card: $(this).attr("id")});
 	});
 });
 

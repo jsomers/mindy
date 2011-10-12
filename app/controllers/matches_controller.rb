@@ -40,6 +40,15 @@ class MatchesController < ApplicationController
     render :text => "player parted"
   end
   
+  def choose_trump
+    match = rget(@match_id)
+    match.choose_trump(params[:card])
+    publish(@match_id, {
+      :type => "trump_chosen", :match => match.to_json
+    })
+    render :text => "trump chosen"
+  end
+  
   private
   
   def get_match_params
