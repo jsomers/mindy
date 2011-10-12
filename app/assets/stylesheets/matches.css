@@ -10,6 +10,11 @@ ul#kibbitz li {
 
 ul#kibbitz li em {
     color: #aaa;
+    font-style: normal;
+}
+
+ul#kibbitz li span {
+    font-style: italic;
 }
 
 #console {
@@ -27,4 +32,10 @@ ul#kibbitz li em {
     border-width: 0;
     outline-width: 0;
     clear: both;
+}
+
+#board {
+    position: absolute;
+    top: 350px;
+    left: 200px;
 }

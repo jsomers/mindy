@@ -35,7 +35,7 @@ class Match
   end
   
   def add_player(handle)
-    raise "Too many players" if @players.length == 4
+    return if @players.length == 4
     return if @players.include? handle
     @players << handle
     assign_hand_to_player(@players.last)

@@ -9,7 +9,7 @@ var HANDLE = "<%= @handle %>";
 
 $(document).ready(function() {
 
-	// Hook up connection.
+	// Hook up the push connection.
 	var jug = new Juggernaut;
     jug.subscribe("<%= @match_id %>", function(data) {
         delegate(data);
@@ -18,24 +18,25 @@ $(document).ready(function() {
         pub("register", {handle: HANDLE});
     });
 
-	// Delegate data coming from the server depending on what type of action
-	// is implied.
+	// Delegate events coming from the server depending on the type of action.
 	var delegate = function(data) {
 		data = JSON.parse(data);
 		if (data.match)
-			GAME = data.match;
+			GAME = JSON.parse(data.match);
 		switch (data.type) {
 			case "message":
-				kibbitz("<em>(" + data.sender + "):</em> " + data.content);
+				kibbitz("<strong>" + data.sender + "</strong>: <span>" + data.content + "</span>");
 				break;
 			case "registered":
-				kibbitz("<em>(msg):</em> <code>" + data.player + "</code> has successfully registered.");
+				logger("<code>" + data.player + "</code> has successfully registered.");
 				break;
 			case "start":
-				kibbitz("<em>(msg):</em> There are now four players&mdash;the game has begun.");
+				logger("There are now four players and the game has begun. It is <code>" + GAME.current_player + "</code>'s turn to choose trump.");
+				if (GAME.current_player == HANDLE)
+					prompt_to_choose_trump();
 				break;
 			case "part":
-				kibbitz("<em>(msg):</em> <code>" + data.player + "</code> has left the game.");
+				logger("<code>" + data.player + "</code> has left the game.");
 				break;
 		}
 	};
@@ -47,6 +48,11 @@ $(document).ready(function() {
 			$("#kibbitz li:eq(0)").remove();
 		$("<li>").html(msg).appendTo($("#kibbitz"));
 	};
+	
+	// Special messages from the server.
+	var logger = function(msg) {
+		kibbitz("<em>[msg]:</em> " + msg);
+	}
 	
 	// Publish events and actions to the server.
 	var pub = function(url, data) {
@@ -66,6 +72,16 @@ $(document).ready(function() {
 			return false;
 		};
 	});
+	
+	// 
+	prompt_to_choose_trump = function() {
+		draw_hand(my_hand());
+		alert("Please choose trump by double clicking the card from your strongest suit.");
+	}
+	// Helper method to get my hand.
+	my_hand = function() {
+		return GAME.hands[HANDLE];
+	};
 	
 	// Remove me from the game when I close the window.
 	$(window).unload(function () {
