@@ -31,6 +31,15 @@ class MatchesController < ApplicationController
     render :text => "message sent"
   end
   
+  def part
+    match = rget(@match_id)
+    match.remove_player(params[:handle])
+    publish(@match_id, {
+      :type => "part", :match => match.to_json, :player => params[:handle]
+    })
+    render :text => "player parted"
+  end
+  
   private
   
   def get_match_params

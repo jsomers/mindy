@@ -42,6 +42,13 @@ class Match
     save!
   end
   
+  def remove_player(handle)
+    @players.delete(handle)
+    @hands.delete(handle)
+    @current_player = @players.sample if @current_player == handle
+    save!
+  end
+  
   def start
     @current_player = @players.sample
     save!

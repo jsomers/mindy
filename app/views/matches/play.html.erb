@@ -22,6 +22,8 @@ $(document).ready(function() {
 	// is implied.
 	var delegate = function(data) {
 		data = JSON.parse(data);
+		if (data.match)
+			GAME = data.match;
 		switch (data.type) {
 			case "message":
 				kibbitz("<em>(" + data.sender + "):</em> " + data.content);
@@ -31,6 +33,9 @@ $(document).ready(function() {
 				break;
 			case "start":
 				kibbitz("<em>(msg):</em> There are now four players&mdash;the game has begun.");
+				break;
+			case "part":
+				kibbitz("<em>(msg):</em> <code>" + data.player + "</code> has left the game.");
 				break;
 		}
 	};
@@ -60,6 +65,11 @@ $(document).ready(function() {
 			$(this).val("");
 			return false;
 		};
+	});
+	
+	// Remove me from the game when I close the window.
+	$(window).unload(function () {
+	  pub("part", {handle: HANDLE});
 	});
 });
 
