@@ -52,6 +52,10 @@ Mindycoat::Application.routes.draw do
   
   match 'matches/play/:id' => "matches#play"
   post 'matches/message' => "matches#message"
+  post 'matches/register' => "matches#register"
+  
+  match 'handle' => "handles#handle"
+  post 'handles/set_handle' => "handles#set_handle"
 
   # See how all your routes lay out with "rake routes"
 

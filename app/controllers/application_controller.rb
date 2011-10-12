@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   private
   
   def rget(key)
-    JSON.parse($redis.get key)
+    if (raw = $redis.get(key))
+      match = Match.from_hash(JSON.parse(raw))
+    else
+      match = Match.new(key)
+    end
   end
   
   def rset(key, val)

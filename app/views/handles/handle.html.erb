@@ -1,0 +1,5 @@
+<form action="/handles/set_handle" method="POST"/>
+	<input type="text" value="<%= session[:handle] %>" name="handle"/>
+	<input type="hidden" value="<%= params[:match_id] %>" name="match_id"/>
+	<input type="submit" value="Save handle"/>
+</form>
