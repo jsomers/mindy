@@ -14,3 +14,12 @@
 * Each trick counts for one point, and each ten counts for one additional point.
 * The team with the most points at the end of thirteen tricks wins the round.
 * Taking all four tens is called a "Mindy Coat" and immediately ends the game.
+
+## TODOs
+
+* Randomly assign pairs.
+* Calculate the score and show it on the page. Don't forget about 10s!
+* Show current trick in progress in its own little area.
+* When you part, nil you out from your seat in the game. Pause the game -- i.e., disable all card actions. Whoever comes back to the game in progress occupies the first available seat.
+* Handle the ending of the hand. Who won? Print trick history?
+* What if a player changes his handle? The match should be keyed to ids, not handles.

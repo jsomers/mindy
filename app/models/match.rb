@@ -50,13 +50,14 @@ class Match
   end
   
   def start
-    @current_player = @players.find {|plyr| @hands[plyr].include? "2c"}
+    @current_player = @players.sample
     save!
   end
   
   def choose_trump(card)
     @trump = card.last
     deal_the_rest
+    @current_player = @players.find {|plyr| @hands[plyr].include? "2c"}
     save!
   end
   

@@ -42,12 +42,6 @@ $(document).ready(function() {
 			case "trump_chosen":
 				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong> as trump. Let the game begin!");
 				refresh();
-				// TODO: it randomly assigns pairs.
-				// TODO: what happens when a player disconnects and reconnects in the middle of a game? don't break other earlier disconnect / reconnect behavior.
-				// TODO: send message to other users saying which card has been played. Alert new current player that it's their turn.
-				// TODO: show current trick in progress instead of writing chat messages.
-				// TODO: what happens when a trick is finished? adjudicate the trick, update the scores, and set the current player.
-				// TODO: what if a player changes his handle? Should be keyed to ids, not handles.
 				break;
 			case "card_played":
 				var latest_play = GAME.current_trick[GAME.current_trick.length - 1];
