@@ -48,13 +48,14 @@ Mindycoat::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'matches#play'
   
   match 'matches/play/:id' => "matches#play"
   post 'matches/message' => "matches#message"
   post 'matches/register' => "matches#register"
   post 'matches/part' => "matches#part"
   post 'matches/choose_trump' => "matches#choose_trump"
+  post 'matches/play_card' => "matches#play_card"
   
   match 'handle' => "handles#handle"
   post 'handles/set_handle' => "handles#set_handle"

@@ -49,11 +49,20 @@ class MatchesController < ApplicationController
     render :text => "trump chosen"
   end
   
+  def play_card
+    match = rget(@match_id)
+    match.play_card(params[:card], params[:handle])
+    publish(@match_id, {
+      :type => "card_played", :match => match.to_json
+    })
+    render :text => "card played"
+  end
+  
   private
   
   def get_match_params
-    @match_id = params[:id]
-    @handle = (session[:handle] ||= "guest_#{rand(10000)}")
+    @match_id = (params[:id] ||= "something_else")
+    @handle = (session[:handle] ||= "guest_#{rand(1000000000)}")
   end
   
   def publish(channel, content)

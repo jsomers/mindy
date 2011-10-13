@@ -31,7 +31,7 @@ class Match
     @finished_tricks = []
     @cards_played = []
     @current_player = nil
-    @current_trick = nil
+    @current_trick = []
   end
   
   def add_player(handle)
@@ -67,6 +67,20 @@ class Match
     end
     save!
   end
+
+  def play_card(card, player)
+    return if @cards_played.include? [player, card]
+    @cards_played << [player, card]
+    @hands[player].delete(card)
+    @current_trick << [player, card]
+    if @current_trick.length == 5
+      last = @current_trick.pop
+      @finished_tricks << @current_trick
+      @current_trick = [last]
+    end
+    update_current_player
+    save!
+  end
   
   private
   
@@ -80,6 +94,10 @@ class Match
   def assign_hand_to_player(player)
     n = @players.length - 1
     @hands[player] = @deck[(n * 5)..((n + 1) * 5) - 1]
+  end
+  
+  def update_current_player
+    @current_player = @players[(@players.index(@current_player) + 1) % @players.length]
   end
   
   def save!

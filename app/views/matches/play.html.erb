@@ -33,7 +33,7 @@ $(document).ready(function() {
 				break;
 			case "start":
 				logger("There are now four players and the game has begun. It is <code>" + GAME.current_player + "</code>'s turn to choose trump.");
-				if (GAME.current_player == HANDLE)
+				if (is_my_turn())
 					prompt_to_choose_trump();
 				break;
 			case "part":
@@ -41,13 +41,18 @@ $(document).ready(function() {
 				break;
 			case "trump_chosen":
 				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong>. Let the game begin!");
-				// TODO: start_game() draws each player's hand.
+				refresh();
+				// TODO: it randomly assigns pairs.
 				// TODO: what happens when a player disconnects and reconnects in the middle of a game? don't break other earlier disconnect / reconnect behavior.
-				// TODO: choose_card event: remove that card from the player's hand (on server); change current player.
 				// TODO: send message to other users saying which card has been played. Alert new current player that it's their turn.
 				// TODO: show current trick in progress instead of writing chat messages.
 				// TODO: what happens when a trick is finished? adjudicate the trick, update the scores, and set the current player.
+				// TODO: what if a player changes his handle? Should be keyed to ids, not handles.
 				break;
+			case "card_played":
+				var latest_play = GAME.current_trick[GAME.current_trick.length - 1];
+				logger("<code>" + latest_play[0] + "</code> played <strong>" + latest_play[1] + "</strong>.");
+				refresh();
 		}
 	};
 	
@@ -84,12 +89,30 @@ $(document).ready(function() {
 	});
 	
 	prompt_to_choose_trump = function() {
-		draw_hand(my_hand());
+		draw_my_hand();
 		alert("Please choose trump by double clicking the card from your strongest suit.");
+	};
+	
+	prompt_to_play_card = function() {
+		logger("<strong>YOUR TURN!</strong>");
+	};
+	
+	draw_my_hand = function() {
+		draw_hand(sorted(my_hand()));
 	}
 
 	my_hand = function() {
 		return GAME.hands[HANDLE];
+	};
+	
+	is_my_turn = function() {
+		return HANDLE == GAME.current_player;
+	};
+	
+	refresh = function() {
+		if (is_my_turn())
+			prompt_to_play_card();
+		draw_my_hand();
 	};
 	
 	// Remove me from the game when I close the window.
@@ -98,8 +121,15 @@ $(document).ready(function() {
 	});
 	
 	$(".card").live("dblclick", function() {
-		if (GAME.trump == null)
+		if (GAME.trump == null) {
 			pub("choose_trump", {card: $(this).attr("id")});
+		} else {
+			if (!is_my_turn()) {
+				alert("You can't play a card because it's not your turn!");
+			} else {
+				pub("play_card", {handle: HANDLE, card: $(this).attr("id")});
+			};
+		};
 	});
 });
 
