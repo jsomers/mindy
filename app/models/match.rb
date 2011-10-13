@@ -50,7 +50,7 @@ class Match
   end
   
   def start
-    @current_player = @players.sample
+    @current_player = @players.find {|plyr| @hands[plyr].include? "2c"}
     save!
   end
   

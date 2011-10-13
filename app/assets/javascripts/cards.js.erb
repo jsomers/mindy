@@ -129,7 +129,15 @@ sorted = function(hand) {
 	
 	return d.sort(ranksort).concat(c.sort(ranksort)).concat(h.sort(ranksort)).concat(s.sort(ranksort));
 	//sort_by_rank(d).concat(sort_by_rank(c)).concat(sort_by_rank(h)).concat(sort_by_rank(s));
-}
+};
+
+suit_and_rank = function(card) {
+    var suit = card.split("")[1]
+	var rank = card.split("")[0]
+	suit = (suit == "0" ? card.split("")[2] : suit)
+	rank = (rank == "1" ? "10" : rank)
+	return [suit, rank]
+};
 
 draw_hand = function(hand) {
 	$(".card[id!=card_template]").remove();
