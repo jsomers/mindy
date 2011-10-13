@@ -57,7 +57,6 @@ class Match
   def choose_trump(card)
     @trump = card.last
     deal_the_rest
-    @current_player = @players.find {|plyr| @hands[plyr].include? "2c"}
     save!
   end
   
