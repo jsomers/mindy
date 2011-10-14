@@ -43,9 +43,10 @@ card_ranks = {
 	"1": 10
 }
 
-draw_card = function(c, x, y) {
+draw_card = function(c, x, y, selector) {
 	if (x == null) { x = 0 }
 	if (y == null) { y = 0 }
+	if (selector == null) { selector = "#board" }
 	dot_map = {
 		"10": ["A1", "A2", "A4", "A5", "B2", "B4", "C1", "C2", "C4", "C5"],
 		"9": ["A1", "A2", "A4", "A5", "B3", "C1", "C2", "C4", "C5"],
@@ -69,7 +70,7 @@ draw_card = function(c, x, y) {
 	rank = (rank == "1" ? "10" : rank)
 	$card.find(".index").html(rank + "<br />" + suit_names[suit])
 	dots = dot_map[rank]
-	for (i=0; i<=(dots.length - 1); i++) {
+	for (var i=0; i<=(dots.length - 1); i++) {
 		dot = dots[i]
 		$dot = $card.find(".spot").clone();
 		$dot.attr("class", "spot" + dot);
@@ -97,9 +98,9 @@ draw_card = function(c, x, y) {
 	} else {
 		$card.find(".ace").remove();
 	}
-	$card.appendTo($("#board"));
+	$card.appendTo($(selector));
 	$(".card").draggable();
-	return null;
+	return $card;
 }
 
 ranksort = function(a, b) {
@@ -140,9 +141,9 @@ suit_and_rank = function(card) {
 };
 
 draw_hand = function(hand) {
-	$(".card[id!=card_template]").remove();
+	$("#board .card[id!=card_template]").remove();
 	for (i in hand) {
-		draw_card(hand[i], i);
+		draw_card(hand[i], i, null, "#board");
 	};
 };
 

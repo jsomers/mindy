@@ -3,6 +3,7 @@ class Match
                 :deck,
                 :hands,
                 :players,
+                :pairs,
                 :trump,
                 :finished_tricks,
                 :cards_played,
@@ -14,6 +15,7 @@ class Match
     match.deck = hash["deck"]
     match.hands = hash["hands"]
     match.players = hash["players"]
+    match.pairs = hash["pairs"]
     match.trump = hash["trump"]
     match.finished_tricks = hash["finished_tricks"]
     match.cards_played = hash["cards_played"]
@@ -27,6 +29,7 @@ class Match
     @deck = build_and_shuffle_deck
     @hands = {}
     @players = []
+    @pairs = {}
     @trump = nil
     @finished_tricks = []
     @cards_played = []
@@ -51,6 +54,7 @@ class Match
   
   def start
     @current_player = @players.sample
+    assign_players_to_pairs
     save!
   end
   
@@ -94,6 +98,13 @@ class Match
   def assign_hand_to_player(player)
     n = @players.length - 1
     @hands[player] = @deck[(n * 5)..((n + 1) * 5) - 1]
+  end
+  
+  def assign_players_to_pairs
+    t = @players.shuffle
+    t.each_with_index do |player, i|
+      @pairs[player] = t[(i + 2) % 4]
+    end
   end
   
   def update_current_player

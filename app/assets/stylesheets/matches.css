@@ -2,6 +2,19 @@
     width: 500px;
 }
 
+#score {
+    width: 500px;
+    position: relative;
+    top: -300px;
+    left: 550px;
+}
+
+#score_card_name {
+    position: relative;
+    top: 80px;
+    font-size: 10px;
+}
+
 ul#kibbitz li {
     list-style: none;
     border-bottom: 1px dotted #ccc;

@@ -31,7 +31,9 @@ gem 'redis'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+group :development do
+  gem 'ruby-debug19', :require => 'ruby-debug'
+end
 
 group :test do
   # Pretty printed test output

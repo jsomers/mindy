@@ -33,6 +33,7 @@ $(document).ready(function() {
 				break;
 			case "start":
 				logger("There are now four players and the game has begun. It is <code>" + GAME.current_player + "</code>'s turn to choose trump.");
+				logger("<strong>For this round, your playing partner will be <code>" + GAME.pairs[HANDLE] + "</code>.</strong>")
 				if (is_my_turn())
 					prompt_to_choose_trump();
 				break;
@@ -45,7 +46,6 @@ $(document).ready(function() {
 				break;
 			case "card_played":
 				var latest_play = GAME.current_trick[GAME.current_trick.length - 1];
-				logger("<code>" + latest_play[0] + "</code> played <strong>" + latest_play[1] + "</strong>.");
 				refresh();
 		}
 	};
@@ -88,7 +88,8 @@ $(document).ready(function() {
 	};
 	
 	prompt_to_play_card = function() {
-		logger("<strong>YOUR TURN!</strong>");
+		// FIXME: persistent highlight on #score cards?
+		$("#board").find(".card .front").effect("highlight", {color: "yellow"}, 1000);
 	};
 	
 	draw_my_hand = function() {
@@ -104,15 +105,16 @@ $(document).ready(function() {
 	};
 	
 	refresh = function() {
+		draw_my_hand();
 		if (is_my_turn())
 			prompt_to_play_card();
-		draw_my_hand();
+		draw_score_cards();
 	};
 	
 	playable = function(card) {
 		var message = false;
 		var suit = suit_and_rank(card)[0];
-		if (GAME.current_trick.length > 0) {
+		if (GAME.current_trick.length > 0 && GAME.current_trick.length < 4) {
 			var lead_suit = suit_and_rank(GAME.current_trick[0][1])[0];
 			if (have_lead_suit_cards(lead_suit) && suit != lead_suit) {
 				message = "You must follow suit!";
@@ -129,6 +131,18 @@ $(document).ready(function() {
 	have_lead_suit_cards = function(lead_suit) {
 		my_suits = my_hand().map(function(c) { return suit_and_rank(c)[0] })
 		return (my_suits.indexOf(lead_suit) != -1);
+	};
+	
+	draw_score_cards = function() {
+		var trick = GAME.current_trick;
+		$("#score .card").remove();
+		for (i in trick) {
+			var c = draw_card(trick[i][1], i * 4.5, null, "#score");
+			$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 10px;">' + trick[i][0] + '</div>');
+		}
+		if (GAME.current_trick.length == 4) {
+			setTimeout('$("#score .card").remove()', 1500);
+		}
 	};
 	
 	// Remove me from the game when I close the window.
@@ -164,8 +178,13 @@ $(document).ready(function() {
 	</div>
 </div>
 
-<div id="chat">
-	<ul id="kibbitz">
-	</ul>
-	<div id="console">&gt;&gt; <input type="text"/></div>
+<div id="meta">
+	<div id="chat">
+		<ul id="kibbitz">
+		</ul>
+		<div id="console">&gt;&gt; <input type="text"/></div>
+	</div>
+	<div id="score">
+		<div id="current">Current trick:</div>
+	</div>
 </div>
