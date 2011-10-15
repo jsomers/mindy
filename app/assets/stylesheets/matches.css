@@ -74,7 +74,8 @@ ul#kibbitz li span {
     width: 400px;
     margin: 0;
     padding: 10px;
-    font-size: 13.1px;
+    font-size: 15.1px;
+    height: 50px;
     font-weight: bold;
     border-width: 0;
     outline-width: 0;

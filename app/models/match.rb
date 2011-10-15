@@ -128,9 +128,11 @@ class Match
   end
   
   def assign_players_to_pairs
-    t = @players.shuffle
-    t.each_with_index do |player, i|
-      @pairs[player] = t[(i + 2) % 4]
+    until @pairs[@players[0]] == @players[2] do # FIXME
+      t = @players.shuffle
+      t.each_with_index do |player, i|
+        @pairs[player] = t[(i + 2) % 4]
+      end
     end
   end
   

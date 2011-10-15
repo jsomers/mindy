@@ -109,7 +109,8 @@ ranksort = function(a, b) {
 	return (ar - br);
 }
 
-sorted = function(hand) {
+sorted = function(hand, trump) {
+    if (trump == null) { trump = "s" };
 	// diamonds, clubs, hearts, spades
 	var d = [];
 	var c = [];
@@ -127,6 +128,21 @@ sorted = function(hand) {
 			s.push(crd)
 		}
 	}
+	
+	switch (trump) {
+	    case "s":
+	        return d.sort(ranksort).concat(c.sort(ranksort)).concat(h.sort(ranksort)).concat(s.sort(ranksort));
+	        break;
+	    case "d":
+	        return c.sort(ranksort).concat(h.sort(ranksort)).concat(s.sort(ranksort)).concat(d.sort(ranksort));
+	        break;
+	    case "h":
+	        return d.sort(ranksort).concat(c.sort(ranksort)).concat(s.sort(ranksort)).concat(h.sort(ranksort));
+	        break;
+	    case "c":
+	        return d.sort(ranksort).concat(s.sort(ranksort)).concat(h.sort(ranksort)).concat(c.sort(ranksort));
+	        break;
+	};
 	
 	return d.sort(ranksort).concat(c.sort(ranksort)).concat(h.sort(ranksort)).concat(s.sort(ranksort));
 	//sort_by_rank(d).concat(sort_by_rank(c)).concat(sort_by_rank(h)).concat(sort_by_rank(s));

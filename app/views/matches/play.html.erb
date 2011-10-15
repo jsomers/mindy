@@ -45,6 +45,8 @@ $(document).ready(function() {
 				break;
 			case "trump_chosen":
 				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong> as trump. Let the game begin!");
+				if (is_my_turn())
+					logger("It's your turn to start the game. <strong>Choose your first card!</strong>");
 				$("#stats").show();
 				$("#trump").html(SUIT_CHARS[GAME.trump]).css("color", SUIT_COLORS[GAME.trump]);
 				refresh();
@@ -62,7 +64,7 @@ $(document).ready(function() {
 	// Manage the chat window.
 	var kibbitz = function(msg) {
 		var current_length = $("#kibbitz li").size();
-		if (current_length >= 6)
+		if (current_length >= 5)
 			$("#kibbitz li:eq(0)").remove();
 		$("<li>").html(msg).appendTo($("#kibbitz"));
 	};
@@ -102,7 +104,7 @@ $(document).ready(function() {
 	};
 	
 	draw_my_hand = function() {
-		draw_hand(sorted(my_hand()));
+		draw_hand(sorted(my_hand(), GAME.trump));
 	}
 
 	my_hand = function() {
@@ -149,7 +151,15 @@ $(document).ready(function() {
 		$("#score .card").remove();
 		for (i in trick) {
 			var c = draw_card(trick[i][1], i * 4.5, null, "#score");
-			$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 10px;">' + trick[i][0] + '</div>');
+			if (trick[i][0] == GAME.pairs[HANDLE]) {
+				var color = "#0066AA";
+				var weight = "bold";
+			} else {
+				var color = "black";
+				var weight = "normal";
+			};
+			$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 10px; font-weight: ' + weight + '; color: ' + color + '">' + trick[i][0] + '</div>');
+			
 		}
 	};
 	
@@ -202,7 +212,7 @@ $(document).ready(function() {
 	<div id="chat">
 		<ul id="kibbitz">
 		</ul>
-		<div id="console">&gt;&gt; <input type="text"/></div>
+		<div id="console">&gt; <input type="text"/></div>
 	</div>
 	
 	<div id="score">
