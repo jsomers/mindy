@@ -4,8 +4,8 @@
 
 #score {
     width: 500px;
-    position: relative;
-    top: -300px;
+    position: absolute;
+    top: 100px;
     left: 550px;
 }
 
@@ -13,6 +13,39 @@
     position: relative;
     top: 80px;
     font-size: 10px;
+}
+
+#stats {
+    position: absolute;
+    top: 20px;
+    left: 550px;
+    font-size: 78px;
+    font-family: Palatino, sans-serif;
+    color: #AAA;
+    display: none;
+}
+
+#stats span {
+    font-weight: bold;
+}
+
+#stats #good_guys {
+    color: #0066AA;
+}
+
+#stats #bad_guys {
+    color: #AAA;
+}
+
+#stats em {
+    font-style: normal;
+    font-size: 32px;
+    color: #DDD;
+}
+
+#stats #left {
+    font-size: 54px;
+    color: #AAA;
 }
 
 ul#kibbitz li {
@@ -51,4 +84,11 @@ ul#kibbitz li span {
     position: absolute;
     top: 350px;
     left: 200px;
+}
+
+#trump {
+    font-size: 68px;
+    position: relative;
+    left: -80px;
+    top: 30px;
 }

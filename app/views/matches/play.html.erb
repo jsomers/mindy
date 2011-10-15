@@ -7,6 +7,8 @@
 var GAME = {};
 var HANDLE = "<%= @handle %>";
 var SUITS = {"s": "Spades", "h": "Hearts", "c": "Clubs", "d": "Diamonds"};
+var SUIT_CHARS = {"s": "&spades;", "h": "&hearts;", "c": "&clubs;", "d": "&diams;"};
+var SUIT_COLORS = {"s": "#000000", "d": "#ff0000", "c": "#000000", "h": "#ff0000"}
 
 $(document).ready(function() {
 
@@ -42,6 +44,8 @@ $(document).ready(function() {
 				break;
 			case "trump_chosen":
 				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong> as trump. Let the game begin!");
+				$("#stats").show();
+				$("#trump").html(SUIT_CHARS[GAME.trump]).css("color", SUIT_COLORS[GAME.trump]);
 				refresh();
 				break;
 			case "card_played":
@@ -88,7 +92,6 @@ $(document).ready(function() {
 	};
 	
 	prompt_to_play_card = function() {
-		// FIXME: persistent highlight on #score cards?
 		$("#board").find(".card .front").effect("highlight", {color: "yellow"}, 1000);
 	};
 	
@@ -109,6 +112,7 @@ $(document).ready(function() {
 		if (is_my_turn())
 			prompt_to_play_card();
 		draw_score_cards();
+		update_scores();
 	};
 	
 	playable = function(card) {
@@ -140,9 +144,15 @@ $(document).ready(function() {
 			var c = draw_card(trick[i][1], i * 4.5, null, "#score");
 			$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 10px;">' + trick[i][0] + '</div>');
 		}
-		if (GAME.current_trick.length == 4) {
-			setTimeout('$("#score .card").remove()', 1500);
-		}
+	};
+	
+	update_scores = function() {
+		var my_score = GAME.scores[HANDLE];
+		var their_score = GAME.points_earned - my_score;
+		var left = 13 - GAME.finished_tricks.length;
+		$("#good_guys").html(my_score);
+		$("#bad_guys").html(their_score);
+		$("#left").html(left);
 	};
 	
 	// Remove me from the game when I close the window.
@@ -168,6 +178,7 @@ $(document).ready(function() {
 </script>
 
 <div id="board">
+	<div id="trump"></div>
 	<div id="card_template" class="card" style="left:30em;top:0em;display:none;z-index:10">
 	  <div class="front">
 	    <div class="index"></div>
@@ -184,7 +195,13 @@ $(document).ready(function() {
 		</ul>
 		<div id="console">&gt;&gt; <input type="text"/></div>
 	</div>
+	
 	<div id="score">
-		<div id="current">Current trick:</div>
+	</div>
+	
+	<div id="stats">
+		<span id="good_guys">4</span> -
+		<span id="bad_guys">5</span>
+		<em>with <span id="left">12</span> tricks left</em>
 	</div>
 </div>

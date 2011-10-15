@@ -17,8 +17,6 @@
 
 ## TODOs
 
-* Calculate the score and show it on the page. Don't forget about 10s!
-* Show current trick in progress in its own little area.
 * When you part, nil you out from your seat in the game. Pause the game -- i.e., disable all card actions. Whoever comes back to the game in progress occupies the first available seat.
 * Handle the ending of the hand. Who won? Print trick history?
 * What if a player changes his handle? The match should be keyed to ids, not handles.
