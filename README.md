@@ -18,7 +18,9 @@
 ## TODOs
 
 * What if a player changes his handle? The match should be keyed to ids, not handles.
-* When you part, nil you out from your seat in the game. Pause the game -- i.e., disable all card actions. Whoever comes back to the game in progress occupies the first available seat.
+* Rejoining on trump call and having everybody's 5 cards show?
+* Multiple people leaving at the same time, coming back, and not getting into the right empty seat (because of .first call) -- use their session handle instead of an arbitrary id in [empty][...].
+* Making pairs & current players clearer.
 * "Play again" behavior.
 * Deploy.
 * Clean code that has gotten dirty.
