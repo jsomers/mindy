@@ -4,6 +4,9 @@ class MatchesController < ApplicationController
   before_filter :get_match_params
   
   def play
+    if !session[:handle] || (session[:handle].include? "guest_")
+      redirect_to "/handle?match_id=#{params[:id]}"
+    end
   end
   
   def register

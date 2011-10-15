@@ -17,8 +17,8 @@
 
 ## TODOs
 
-* What if a player changes his handle? The match should be keyed to ids, not handles.
 * Making pairs & current players clearer (maybe show current hand according to seating chart?).
+* Waiting for other people to play -- make that clearer.
 * "Play again" behavior.
 * Deploy.
 * Remodeling along the lines of a Backbone app? Think of separation of concerns and small models. What does each piece have to know?
