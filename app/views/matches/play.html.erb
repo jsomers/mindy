@@ -118,7 +118,9 @@ $(document).ready(function() {
 	};
 	
 	var refresh = function() {
-		draw_my_hand();
+		if (GAME.trump) {
+			draw_my_hand();
+		};
 		if (is_my_turn())
 			prompt_to_play_card();
 		draw_score_cards();
@@ -174,9 +176,13 @@ $(document).ready(function() {
 		$("#left").html(left);
 	};
 	
+	$(window).bind("beforeunload", function() { 
+	    pub("part", {handle: HANDLE});
+	})
+	
 	// Remove me from the game when I close the window.
 	$(window).unload(function () {
-	  pub("part", {handle: HANDLE});
+	 	pub("part", {handle: HANDLE});
 	});
 	
 	$(".card").live("dblclick", function() {

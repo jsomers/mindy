@@ -17,7 +17,6 @@
 
 ## TODOs
 
-* Rejoining on trump call and having everybody's 5 cards show?
 * Multiple people leaving at the same time, coming back, and not getting into the right empty seat (because of .first call) -- use their session handle instead of an arbitrary id in [empty][...].
 * What if a player changes his handle? The match should be keyed to ids, not handles.
 * Making pairs & current players clearer.
