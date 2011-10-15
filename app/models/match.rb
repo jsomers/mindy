@@ -62,7 +62,7 @@ class Match
       assign_hand_to_player(@players.last)
       @scores[handle] = 0
     else
-      empty_id = @players.find {|pl| pl.include? "[empty]"}
+      empty_id = @players.find {|pl| pl.include? "[empty][#{handle}]"} || @players.find {|pl| pl.include? "[empty]"}
       raise "No empty seat to re-fill?" if empty_id.nil?
       @players[@players.index(empty_id)] = handle
       @scores[handle] = @scores[empty_id]
@@ -210,7 +210,7 @@ class Match
   end
   
   def empty_their_seat(handle)
-    id = rand(100000000) # To prevent dupes in hashes (if we were to empty out multiple people)
+    id = handle
     @players[@players.index(handle)] = "[empty][#{id}]"
     @scores["[empty][#{id}]"] = @scores[handle]
     @scores.delete(handle)

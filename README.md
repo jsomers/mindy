@@ -17,9 +17,8 @@
 
 ## TODOs
 
-* Multiple people leaving at the same time, coming back, and not getting into the right empty seat (because of .first call) -- use their session handle instead of an arbitrary id in [empty][...].
 * What if a player changes his handle? The match should be keyed to ids, not handles.
-* Making pairs & current players clearer.
+* Making pairs & current players clearer (maybe show current hand according to seating chart?).
 * "Play again" behavior.
 * Deploy.
 * Remodeling along the lines of a Backbone app? Think of separation of concerns and small models. What does each piece have to know?
