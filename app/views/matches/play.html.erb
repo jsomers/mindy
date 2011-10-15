@@ -33,6 +33,8 @@ $(document).ready(function() {
 				break;
 			case "registered":
 				logger("<code>" + data.player + "</code> has successfully registered.");
+				if (GAME.current_player)
+					refresh();
 				break;
 			case "start":
 				logger("There are now four players and the game has begun. It is <code>" + GAME.current_player + "</code>'s turn to choose trump.");
@@ -178,6 +180,10 @@ $(document).ready(function() {
 	});
 	
 	$(".card").live("dblclick", function() {
+		if (GAME.paused) {
+			alert("Can't do that until there are four players. Get 'em back here!");
+			return false;
+		};
 		var card = $(this).attr("id");
 		if (GAME.trump == null) {
 			pub("choose_trump", {card: card});

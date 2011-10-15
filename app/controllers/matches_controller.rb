@@ -13,9 +13,14 @@ class MatchesController < ApplicationController
       :type => "registered", :match => match.to_json, :player => params[:handle]
     })
     
-    if match.players.length == 4
+    if match.players.length == 4 && !match.started?
+      match.start
       publish(@match_id, {
-        :type => "start", :match => match.start.to_json
+        :type => "start", :match => match.to_json
+      })
+    elsif match.players.length == 4 && !match.paused?
+      publish(@match_id, {
+        :type => "restart", :match => match.to_json
       })
     end
     

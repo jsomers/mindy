@@ -11,7 +11,9 @@ class Match
                 :cards_played,
                 :current_player,
                 :current_trick,
-                :finished
+                :started_at,
+                :finished_at,
+                :paused
   
   @@suits = ["s", "h", "d", "c"]
   @@ranks = (2..10).collect(&:to_s).to_a | ["J", "Q", "K", "A"]
@@ -29,7 +31,9 @@ class Match
     match.cards_played = hash["cards_played"]
     match.current_player = hash["current_player"]
     match.current_trick = hash["current_trick"]
-    match.finished = hash["finished"]
+    match.started_at = hash["started_at"]
+    match.finished_at = hash["finished_at"]
+    match.paused = hash["paused"]
     match
   end
   
@@ -46,28 +50,53 @@ class Match
     @cards_played = []
     @current_player = nil
     @current_trick = []
-    @finished = false
+    @started_at = nil
+    @finished_at = nil
+    @paused = false
   end
   
   def add_player(handle)
-    return if @players.length == 4
     return if @players.include? handle
-    @players << handle
-    assign_hand_to_player(@players.last)
-    @scores[handle] = 0
+    if !self.started?
+      @players << handle
+      assign_hand_to_player(@players.last)
+      @scores[handle] = 0
+    else
+      empty_id = @players.find {|pl| pl.include? "[empty]"}
+      raise "No empty seat to re-fill?" if empty_id.nil?
+      @players[@players.index(empty_id)] = handle
+      @scores[handle] = @scores[empty_id]
+      @scores.delete(empty_id)
+      @hands[handle] = @hands[empty_id]
+      @hands.delete(empty_id)
+      if @current_player == empty_id
+        @current_player = handle
+      end
+      @pairs[handle] = @pairs[empty_id]
+      @pairs[@pairs[empty_id]] = handle
+      @pairs.delete(empty_id)
+      if !@players.find {|pl| pl.include? "[empty]"} && @players.length == 4
+        @paused = false
+      end
+    end
     save!
   end
   
   def remove_player(handle)
-    @players.delete(handle)
-    @hands.delete(handle)
-    @current_player = @players.sample if @current_player == handle
+    if !self.started?
+      @players.delete(handle)
+      @hands.delete(handle)
+      @current_player = @players.sample if @current_player == handle
+    else
+      empty_their_seat(handle)
+    end
     save!
   end
   
   def start
     @current_player = @players.sample
     assign_players_to_pairs
+    @started_at = DateTime.now
     save!
   end
   
@@ -94,7 +123,7 @@ class Match
       @finished_tricks << @current_trick
       update_score
       @current_trick = []
-      @finished = true
+      @finished_at = DateTime.now
     end
     if @current_trick.length == 5
       last = @current_trick.pop
@@ -106,8 +135,16 @@ class Match
     save!
   end
   
+  def started?
+    @started_at.present?
+  end
+  
   def finished?
-    @finished
+    @finished_at.present?
+  end
+  
+  def paused?
+    @paused
   end
   
   def save!
@@ -171,5 +208,21 @@ class Match
   def update_current_player
     @current_player = @players[(@players.index(@current_player) + 1) % @players.length]
   end
-    
+  
+  def empty_their_seat(handle)
+    id = rand(100000000) # To prevent dupes in hashes (if we were to empty out multiple people)
+    @players[@players.index(handle)] = "[empty][#{id}]"
+    @scores["[empty][#{id}]"] = @scores[handle]
+    @scores.delete(handle)
+    @hands["[empty][#{id}]"] = @hands[handle]
+    @hands.delete(handle)
+    if @current_player == handle
+      @current_player = "[empty][#{id}]"
+    end
+    @pairs["[empty][#{id}]"] = @pairs[handle]
+    @pairs[@pairs[handle]] = "[empty][#{id}]"
+    @pairs.delete(handle)
+    @paused = true
+  end
+
 end
