@@ -80,7 +80,7 @@ $(document).ready(function() {
 	};
 	
 	// Send chat messages.
-	message = function(content) {
+	var message = function(content) {
 		pub("message", {content: content, handle: HANDLE});
 	};
 	
@@ -93,7 +93,7 @@ $(document).ready(function() {
 		};
 	});
 	
-	prompt_to_choose_trump = function() {
+	var prompt_to_choose_trump = function() {
 		draw_my_hand();
 		alert("Please choose trump by double clicking the card from your strongest suit.");
 	};
@@ -103,19 +103,19 @@ $(document).ready(function() {
 		$("#score .card .front").last().effect("highlight", {color: "yellow"}, 1000);
 	};
 	
-	draw_my_hand = function() {
+	var draw_my_hand = function() {
 		draw_hand(sorted(my_hand(), GAME.trump));
 	}
 
-	my_hand = function() {
+	var my_hand = function() {
 		return GAME.hands[HANDLE];
 	};
 	
-	is_my_turn = function() {
+	var is_my_turn = function() {
 		return HANDLE == GAME.current_player;
 	};
 	
-	refresh = function() {
+	var refresh = function() {
 		draw_my_hand();
 		if (is_my_turn())
 			prompt_to_play_card();
@@ -124,7 +124,7 @@ $(document).ready(function() {
 		update_scores();
 	};
 	
-	playable = function(card) {
+	var playable = function(card) {
 		var message = false;
 		var suit = suit_and_rank(card)[0];
 		if (GAME.current_trick.length > 0 && GAME.current_trick.length < 4) {
@@ -141,12 +141,12 @@ $(document).ready(function() {
 		return (message || true);
 	};
 	
-	have_lead_suit_cards = function(lead_suit) {
+	var have_lead_suit_cards = function(lead_suit) {
 		my_suits = my_hand().map(function(c) { return suit_and_rank(c)[0] })
 		return (my_suits.indexOf(lead_suit) != -1);
 	};
 	
-	draw_score_cards = function() {
+	var draw_score_cards = function() {
 		var trick = GAME.current_trick;
 		$("#score .card").remove();
 		for (i in trick) {
@@ -163,7 +163,7 @@ $(document).ready(function() {
 		}
 	};
 	
-	update_scores = function() {
+	var update_scores = function() {
 		var my_score = GAME.scores[HANDLE];
 		var their_score = GAME.points_earned - my_score;
 		var left = 13 - GAME.finished_tricks.length;
