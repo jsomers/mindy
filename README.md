@@ -17,6 +17,11 @@
 
 ## TODOs
 
+* Highlight the name of your partner underneath the cards they play.
+* Sort cards in trump order.
 * When you part, nil you out from your seat in the game. Pause the game -- i.e., disable all card actions. Whoever comes back to the game in progress occupies the first available seat.
-* Handle the ending of the hand. Who won? Print trick history?
 * What if a player changes his handle? The match should be keyed to ids, not handles.
+* Deploy.
+* Clean code that has gotten dirty.
+* Multiple rounds?
+* Routing from / into a random game with people waiting. Players get a url to share. At 4 the rando joining stops, because the game is in progress.

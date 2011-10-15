@@ -1,0 +1,29 @@
+The winners were <strong><%= @match.scores.sort {|a, b| b[1] <=> a[1]}.first(2).collect {|s| s.first}.to_sentence %></strong>. <a href="/">Click here to play again.</a>
+
+<div id="card_template" class="card" style="left:30em;top:0em;display:none;z-index:10">
+  <div class="front">
+    <div class="index"></div>
+	<img class="face" src="" alt="" width="80" height="130" />
+	<div class="spot"></div>
+	<div class="ace"></div>
+  </div> 
+</div>
+
+<h3>Hand History (<%= raw({"h" => "&hearts;", "s" => "&spades;", "d" => "&diams;", "c" => "&clubs;"}[@match.trump]) %>)</h3>
+<% (0..12).each do |i| %>
+	<div id="trick_<%= i %>" class="history" style="position: relative; top: <%= "#{i * 120}px" %>;"></div><br/>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	draw_trick = function(trick, selector) {
+		for (i in trick) {
+			var c = draw_card(trick[i][1], i * 4.5, null, selector);
+			$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 10px;">' + trick[i][0] + '</div>');
+		}
+	};	
+	<% @match.finished_tricks.each_with_index do |trick, i| %>
+		draw_trick(<%= raw(trick.to_json) %>, "#trick_<%= i %>");
+	<% end %>
+})
+</script>

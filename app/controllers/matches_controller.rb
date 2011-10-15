@@ -52,12 +52,22 @@ class MatchesController < ApplicationController
   def play_card
     match = rget(@match_id)
     match.play_card(params[:card], params[:handle])
-    publish(@match_id, {
-      :type => "card_played", :match => match.to_json
-    })
-    render :text => "card played"
+    if match.finished?
+      publish(@match_id, {
+        :type => "game_over", :match => match.to_json
+      })
+    else
+      publish(@match_id, {
+        :type => "card_played", :match => match.to_json
+      })
+      render :text => "card played"
+    end
   end
   
+  def game_over
+    @match = rget(@match_id)
+  end
+    
   private
   
   def get_match_params

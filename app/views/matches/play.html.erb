@@ -8,7 +8,8 @@ var GAME = {};
 var HANDLE = "<%= @handle %>";
 var SUITS = {"s": "Spades", "h": "Hearts", "c": "Clubs", "d": "Diamonds"};
 var SUIT_CHARS = {"s": "&spades;", "h": "&hearts;", "c": "&clubs;", "d": "&diams;"};
-var SUIT_COLORS = {"s": "#000000", "d": "#ff0000", "c": "#000000", "h": "#ff0000"}
+var SUIT_COLORS = {"s": "#000000", "d": "#ff0000", "c": "#000000", "h": "#ff0000"};
+var timeout_id = null;
 
 $(document).ready(function() {
 
@@ -51,6 +52,10 @@ $(document).ready(function() {
 			case "card_played":
 				var latest_play = GAME.current_trick[GAME.current_trick.length - 1];
 				refresh();
+				break;
+			case "game_over":
+				window.location = "/matches/game_over/" + GAME.id;
+				break;
 		}
 	};
 	
@@ -92,7 +97,8 @@ $(document).ready(function() {
 	};
 	
 	prompt_to_play_card = function() {
-		$("#board").find(".card .front").effect("highlight", {color: "yellow"}, 1000);
+		timeout_id = setTimeout("prompt_to_play_card()", 1000);
+		$("#score .card .front").last().effect("highlight", {color: "yellow"}, 1000);
 	};
 	
 	draw_my_hand = function() {
@@ -112,6 +118,7 @@ $(document).ready(function() {
 		if (is_my_turn())
 			prompt_to_play_card();
 		draw_score_cards();
+		$("#score .card .front").last().effect("highlight", {color: "yellow"}, 1000);
 		update_scores();
 	};
 	
@@ -172,6 +179,8 @@ $(document).ready(function() {
 				alert(true_or_errors);
 			};
 		};
+		if (timeout_id)
+			clearTimeout(timeout_id);
 	});
 });
 

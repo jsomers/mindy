@@ -10,7 +10,8 @@ class Match
                 :finished_tricks,
                 :cards_played,
                 :current_player,
-                :current_trick
+                :current_trick,
+                :finished
   
   @@suits = ["s", "h", "d", "c"]
   @@ranks = (2..10).collect(&:to_s).to_a | ["J", "Q", "K", "A"]
@@ -28,6 +29,7 @@ class Match
     match.cards_played = hash["cards_played"]
     match.current_player = hash["current_player"]
     match.current_trick = hash["current_trick"]
+    match.finished = hash["finished"]
     match
   end
   
@@ -44,6 +46,7 @@ class Match
     @cards_played = []
     @current_player = nil
     @current_trick = []
+    @finished = false
   end
   
   def add_player(handle)
@@ -87,6 +90,12 @@ class Match
     @cards_played << [player, card]
     @hands[player].delete(card)
     @current_trick << [player, card]
+    if @current_trick.length == 4 && @finished_tricks.length == 12
+      @finished_tricks << @current_trick
+      update_score
+      @current_trick = []
+      @finished = true
+    end
     if @current_trick.length == 5
       last = @current_trick.pop
       @finished_tricks << @current_trick
@@ -95,6 +104,15 @@ class Match
     end
     update_current_player
     save!
+  end
+  
+  def finished?
+    @finished
+  end
+  
+  def save!
+    $redis.set self.id, self.to_json
+    self
   end
   
   private
@@ -154,10 +172,5 @@ class Match
   def update_current_player
     @current_player = @players[(@players.index(@current_player) + 1) % @players.length]
   end
-  
-  def save!
-    $redis.set self.id, self.to_json
-    self
-  end
-  
+    
 end

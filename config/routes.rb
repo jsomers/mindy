@@ -56,6 +56,7 @@ Mindycoat::Application.routes.draw do
   post 'matches/part' => "matches#part"
   post 'matches/choose_trump' => "matches#choose_trump"
   post 'matches/play_card' => "matches#play_card"
+  get 'matches/game_over/:id' => "matches#game_over"
   
   match 'handle' => "handles#handle"
   post 'handles/set_handle' => "handles#set_handle"
