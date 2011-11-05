@@ -60,4 +60,6 @@ Mindycoat::Application.configure do
   
   uri = URI.parse("redis://redistogo:fbef5e3f456021dd5cb78c0823f83911@viperfish.redistogo.com:9331/")
   $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password, :thread_safe => true)
+  
+  Juggernaut.url = "redis://redistogo:fbef5e3f456021dd5cb78c0823f83911@viperfish.redistogo.com:9331/"
 end
