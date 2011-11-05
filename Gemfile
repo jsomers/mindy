@@ -30,9 +30,10 @@ gem 'redis'
 # gem 'capistrano'
 
 # To use debugger
-# group :development do
-#   gem 'ruby-debug19', :require => 'ruby-debug'
-# end
+group :development do
+  #gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'sqlite3'
+end
 
 group :test do
   # Pretty printed test output
