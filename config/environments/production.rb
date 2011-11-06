@@ -58,8 +58,8 @@ Mindycoat::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
-  uri = URI.parse("redis://redistogo:90cb1e54cec1b907e3c3f3469bbc5511@viperfish.redistogo.com:9334/")
-  $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password, :thread_safe => true)
+  # uri = URI.parse("redis://redistogo:90cb1e54cec1b907e3c3f3469bbc5511@viperfish.redistogo.com:9334/")
+  $redis = Redis.new#(:host => uri.host, :port => uri.port, :password => uri.password, :thread_safe => true)
   
-  Juggernaut.url = "redis://redistogo:90cb1e54cec1b907e3c3f3469bbc5511@viperfish.redistogo.com:9334/"
+ # Juggernaut.url = "redis://redistogo:90cb1e54cec1b907e3c3f3469bbc5511@viperfish.redistogo.com:9334/"
 end

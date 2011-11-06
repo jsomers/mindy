@@ -1,0 +1,1 @@
+Follow this [guide](http://wtf.ejc.me/post/5679831003/fresh-setup-of-ubuntu-11-04-with-postgres-rvm-ruby), except ignore the stuff about postgres. 

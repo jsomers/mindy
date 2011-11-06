@@ -5,7 +5,7 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -30,10 +30,9 @@ gem 'redis'
 # gem 'capistrano'
 
 # To use debugger
-group :development do
+#group :development do
   #gem 'ruby-debug19', :require => 'ruby-debug'
-  gem 'sqlite3'
-end
+#end
 
 group :test do
   # Pretty printed test output
