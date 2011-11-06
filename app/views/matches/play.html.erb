@@ -167,6 +167,22 @@ $(document).ready(function() {
 		}
 	};
 	
+	draw_score_card = function(pos, play) {
+		var player = play[0];
+		var card = play[1];
+		var sel = "#score #" + pos;
+		$(sel + " .card").remove();
+		var c = draw_card(card, null, null, sel);
+		if (pos == "partner") {
+			var color = "#0066AA";
+			var weight = "bold";
+		} else {
+			var color = "black";
+			var weight = "normal";
+		};
+		$(c).append('<div class="score_card_name" style="position: relative; top: 95px; left: 15px; font-size: 13px; font-weight: ' + weight + '; color: ' + color + '">' + player + '</div>');
+	};
+	
 	var update_scores = function() {
 		var my_score = GAME.scores[HANDLE];
 		var their_score = GAME.points_earned - my_score;
@@ -233,6 +249,18 @@ $(document).ready(function() {
 	</div>
 	
 	<div id="score">
+		<div id="me">
+			<div id="card_template" class="card" style="z-index:10"><div class="front"></div></div>
+		</div>
+		<div id="partner">
+			<div id="card_template" class="card" style="z-index:10"><div class="front"></div></div>
+		</div>
+		<div id="left">
+			<div id="card_template" class="card" style="z-index:10"><div class="front"></div></div>
+		</div>
+		<div id="right">
+			<div id="card_template" class="card" style="z-index:10"><div class="front"></div></div>
+		</div>
 	</div>
 	
 	<div id="stats">

@@ -26,22 +26,58 @@
 	padding: 5px;
 }
 
+#handle {
+	margin:0 auto;
+	text-align: center;
+	margin-top: 200px;
+}
+
+#handle p {
+	font-family: Georgia;
+}
+
+#handle input[type="text"] {
+	font-size: 20px;
+	padding: 5px;
+}
+
 #chat {
     width: 500px;
+	font-family: Georgia;
+	font-size: 14px;
 }
 
 input#game_url {
 	margin: 5px 0px 0px 10px;
-	font-size: 14px;
+	font-size: 12px;
+	color: #444;
+	padding: 5px;
 	width: 400px;
 	text-align: center;
 }
 
-#score {
-    width: 500px;
-    position: absolute;
-    top: 100px;
-    left: 550px;
+#score #left {
+	position: absolute;
+	top: 65px;
+	left: 550px;
+}
+
+#score #right {
+	position: absolute;
+	top: 65px;
+	left: 750px;
+}
+
+#score #partner {
+	position: absolute;
+	top: 0px;
+	left: 650px;
+}
+
+#score #me {
+	position: absolute;
+	top: 125px;
+	left: 650px;
 }
 
 #score_card_name {
@@ -52,12 +88,12 @@ input#game_url {
 
 #stats {
     position: absolute;
-    top: 20px;
-    left: 550px;
+	bottom: 0px;
+	right: 20px;
     font-size: 78px;
     font-family: Palatino, sans-serif;
     color: #AAA;
-    display: none;
+	display: none;
 }
 
 #stats span {

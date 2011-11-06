@@ -47,6 +47,25 @@ draw_card = function(c, x, y, selector) {
 	if (x == null) { x = 0 }
 	if (y == null) { y = 0 }
 	if (selector == null) { selector = "#board" }
+	if (c == "X") {
+		$card = $("#card_template").clone();
+		$card.show();
+		$card.attr("id", c);
+		$card.attr("style", "left:" + x + "em;top:" + y + "em")
+		$card.find(".front").hide();
+		$card.appendTo($(selector));
+		$(".card").draggable();
+		return $card;
+	};
+	if (c == "?") {
+		$card = $("#card_template").clone();
+		$card.show();
+		$card.attr("id", c);
+		$card.attr("style", "left:" + x + "em;top:" + y + "em")
+		$card.appendTo($(selector));
+		$(".card").draggable();
+		return $card;
+	};
 	dot_map = {
 		"10": ["A1", "A2", "A4", "A5", "B2", "B4", "C1", "C2", "C4", "C5"],
 		"9": ["A1", "A2", "A4", "A5", "B3", "C1", "C2", "C4", "C5"],
