@@ -29,4 +29,8 @@ Mindycoat::Application.configure do
   config.assets.debug = true
   
   $redis = Redis.new
+  
+  config.after_initialize do
+    Domain.url = 'http://localhost'
+  end
 end
