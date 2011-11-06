@@ -204,6 +204,10 @@ $(document).ready(function() {
 		if (timeout_id)
 			clearTimeout(timeout_id);
 	});
+	
+	$("#game_url").click(function() {
+		$(this).select();
+	})
 });
 
 </script>
@@ -223,6 +227,7 @@ $(document).ready(function() {
 <div id="meta">
 	<div id="chat">
 		<ul id="kibbitz">
+			<li>Welcome! To invite more players to this match, send them this url:<br/> <input id="game_url" type="text" value="mindycoat.com/matches/play/<%= @match_id %>"></li>
 		</ul>
 		<div id="console">&gt; <input type="text"/></div>
 	</div>

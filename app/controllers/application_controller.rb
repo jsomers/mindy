@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
   def rget(key)
     if (raw = $redis.get(key))
       match = Match.from_hash(JSON.parse(raw))
-    else
-      match = Match.new(key)
     end
   end
   

@@ -1,7 +1,15 @@
 class MatchesController < ApplicationController
   protect_from_forgery
   
-  before_filter :get_match_params
+  before_filter :get_match_params, :except => [:create]
+  
+  def create
+    name = params[:name]
+    id = id_ify(name)
+    match = Match.new(id, name)
+    rset(id, match)
+    redirect_to "/matches/play/#{id}"
+  end
   
   def play
     if !session[:handle] || (session[:handle].include? "guest_")
@@ -11,6 +19,9 @@ class MatchesController < ApplicationController
   
   def register
     match = rget(@match_id)
+    if !match
+      redirect_to "/matches/new"
+    end
     match.add_player(params[:handle])
     publish(@match_id, {
       :type => "registered", :match => match.to_json, :player => params[:handle]
@@ -79,11 +90,15 @@ class MatchesController < ApplicationController
   private
   
   def get_match_params
-    @match_id = (params[:id] ||= "something_else")
+    @match_id = (params[:id])
     @handle = (session[:handle] ||= "guest_#{rand(1000000000)}")
   end
   
   def publish(channel, content)
     Juggernaut.publish(channel, content.to_json)
+  end
+  
+  def id_ify(name)
+    name.gsub(/[^\w+]/, "-").gsub("--", "-").chomp("-")
   end
 end

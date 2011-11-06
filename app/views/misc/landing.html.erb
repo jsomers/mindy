@@ -1,0 +1,39 @@
+<div id="wrapper">
+	<img src="<%= asset_path('pterodactyl.png') %>" width="150px"/>
+	<div id="banner">
+		<div id="banner_text">
+			<h1>Mindy Coat: Play India's greatest card game! <br/>
+				<span id="more_info">The favorite pastime of the subcontinent, finally online.</span></h1>
+		</div>
+
+		<div id="play_now_button">
+			<a href="/matches/new">Create a match</a>
+			<div id="create_match_form" style="display: none;">
+				<form action="/matches/create" method="POST">
+					<input type="text" placeholder="Name your match..." name="name"/><br/>
+					<input type="submit" value="Create match"/>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="rules">
+		<h2 id="the_rules_of_mindy_coat">The Traditional Rules of the Game</h2>
+		<ul>
+			<li>The game is played with four players in teams of two, seated opposite. The action proceeds clockwise.</li>
+			<li>Five cards are dealt to each player. The player immediately left of the dealer selects a trump suit based on the strength of his first five cards, and signals for the rest of the cards to be dealt.</li>
+			<li>The game is composed of  &#8220;tricks.&#8221; Each player selects a card in turn until four cards are played. The team with the highest-ranked card of the four takes the trick, worth a point. Tens are worth an additional point.</li>
+			<li>The first team to nine points wins the round.</li>
+			<li>Taking all four tens is called a &#8220;Mindy Coat&#8221; and is considered a total victory.</li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#play_now_button > a").click(function() {
+		$(this).hide();
+		$("#create_match_form").show();
+		return false;
+	});
+});
+</script>

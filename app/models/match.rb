@@ -1,5 +1,6 @@
 class Match
   attr_accessor :id,
+                :name,
                 :deck,
                 :hands,
                 :players,
@@ -20,6 +21,7 @@ class Match
   
   def self.from_hash(hash)
     match = self.new(hash["id"])
+    match.name = hash["name"]
     match.deck = hash["deck"]
     match.hands = hash["hands"]
     match.players = hash["players"]
@@ -37,8 +39,9 @@ class Match
     match
   end
   
-  def initialize(id)
+  def initialize(id, name=nil)
     @id = id
+    @name = name
     @deck = build_and_shuffle_deck
     @hands = {}
     @players = []
@@ -145,6 +148,10 @@ class Match
   
   def paused?
     @paused
+  end
+  
+  def in_progress?
+    started? && !finished?
   end
   
   def save!

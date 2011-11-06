@@ -51,6 +51,8 @@ Mindycoat::Application.routes.draw do
   root :to => 'misc#landing'
   
   match 'matches/play/:id' => "matches#play"
+  
+  post 'matches/create' => "matches#create"
   post 'matches/message' => "matches#message"
   post 'matches/register' => "matches#register"
   post 'matches/part' => "matches#part"

@@ -6,23 +6,13 @@
 
 Problems with sqlite3? `bundle config build.sqlite3 --with-sqlite3-include=/usr/local/include --with-sqlite3-lib=/usr/local/lib --with-sqlite3-dir=/usr/local/bin`
 
-## The Rules of Mindy Coat
-
-* The game is played with four players in teams of two, seated opposite. The action proceeds clockwise.
-* Five cards are dealt to each player, starting with the player to the left of the dealer. That player's cards are dealt face-up, the rest face-down.
-* The face-up player calls trump based on his first five cards. No one else can see their five.
-* The rest of the cards are dealt.
-* Players select one card each in a given turn (a "trick"). The team playing the highest-ranked card takes the trick. (See [trick-taking games](http://en.wikipedia.org/wiki/Trick-taking_game) more generally).
-* Each trick counts for one point, and each of the four 10s counts for one additional point. There are 17 points total to be earned.
-* The team with the most points at the end of thirteen tricks wins the round.
-* Taking all four tens is called a "Mindy Coat" and is considered a total victory.
-
 ## TODOs
 
+* Landing page -> game flow.
 * Making pairs & current players clearer (maybe show current hand according to seating chart?).
 * Waiting for other people to play -- make that clearer.
 * "Play again" behavior.
-* Deploy.
+* Release!
 * Remodeling along the lines of a Backbone app? Think of separation of concerns and small models. What does each piece have to know?
 * An observer to publish records?
 * Clean code that has gotten dirty.
