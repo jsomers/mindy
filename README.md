@@ -8,7 +8,6 @@ Problems with sqlite3? `bundle config build.sqlite3 --with-sqlite3-include=/usr/
 
 ## TODOs
 
-* Landing page -> game flow.
 * Making pairs & current players clearer (maybe show current hand according to seating chart?).
 * Waiting for other people to play -- make that clearer.
 * "Play again" behavior.

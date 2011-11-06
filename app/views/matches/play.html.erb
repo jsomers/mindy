@@ -9,6 +9,12 @@ var HANDLE = "<%= @handle %>";
 var SUITS = {"s": "Spades", "h": "Hearts", "c": "Clubs", "d": "Diamonds"};
 var SUIT_CHARS = {"s": "&spades;", "h": "&hearts;", "c": "&clubs;", "d": "&diams;"};
 var SUIT_COLORS = {"s": "#000000", "d": "#ff0000", "c": "#000000", "h": "#ff0000"};
+var SEATING_CHART = {
+	0: {0: "me", 1: "left", 2: "partner", 3: "right"},
+	1: {1: "me", 2: "left", 3: "partner", 0: "right"},
+	2: {2: "me", 3: "left", 0: "partner", 1: "right"},
+	3: {3: "me", 0: "left", 1: "partner", 2: "right"}
+}
 var timeout_id = null;
 
 $(document).ready(function() {
@@ -32,7 +38,8 @@ $(document).ready(function() {
 				kibbitz("<strong>" + data.sender + "</strong>: <span>" + data.content + "</span>");
 				break;
 			case "registered":
-				logger("<code>" + data.player + "</code> has successfully registered.");
+				logger("<code>" + data.player + "</code> has successfully registered. Waiting for " + (4 - GAME.players.length) + " other players.");
+				draw_seats();
 				if (GAME.current_player)
 					refresh();
 				break;
@@ -44,6 +51,7 @@ $(document).ready(function() {
 				break;
 			case "part":
 				logger("<code>" + data.player + "</code> has left the game.");
+				draw_seats();
 				break;
 			case "trump_chosen":
 				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong> as trump. Let the game begin!");
@@ -101,8 +109,9 @@ $(document).ready(function() {
 	};
 	
 	prompt_to_play_card = function() {
-		timeout_id = setTimeout("prompt_to_play_card()", 1000);
-		$("#score .card .front").last().effect("highlight", {color: "yellow"}, 1000);
+	// 	timeout_id = setTimeout("prompt_to_play_card()", 1000);
+	// 	$("#score .card .front").last().effect("highlight", {color: "yellow"}, 1000);
+		return false;
 	};
 	
 	var draw_my_hand = function() {
@@ -124,7 +133,7 @@ $(document).ready(function() {
 		if (is_my_turn())
 			prompt_to_play_card();
 		draw_score_cards();
-		$("#score .card .front").last().effect("highlight", {color: "yellow"}, 1000);
+		// $("#score #me .card .front").effect("highlight", {color: "yellow"}, 1000);
 		update_scores();
 	};
 	
@@ -151,29 +160,56 @@ $(document).ready(function() {
 	};
 	
 	var draw_score_cards = function() {
-		var trick = GAME.current_trick;
+		draw_seats();
+		var my_pos = GAME.players.indexOf(HANDLE);
+		for (var i in GAME.current_trick) {
+			var play = GAME.current_trick[i];
+			var player = play[0];
+			var card = play[1];
+			var seat = SEATING_CHART[my_pos][GAME.players.indexOf(player)];
+			draw_score_card(seat, [player, card]);
+		};
+	};
+	
+	var draw_seats = function() {
 		$("#score .card").remove();
-		for (i in trick) {
-			var c = draw_card(trick[i][1], i * 4.5, null, "#score");
-			if (trick[i][0] == GAME.pairs[HANDLE]) {
-				var color = "#0066AA";
-				var weight = "bold";
-			} else {
-				var color = "black";
-				var weight = "normal";
-			};
-			$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 10px; font-weight: ' + weight + '; color: ' + color + '">' + trick[i][0] + '</div>');
-			
-		}
+		var seats = ["me", "left", "right", "partner"];
+		var my_pos = GAME.players.indexOf(HANDLE);
+		for (var i in GAME.players) {
+			var player = GAME.players[i];
+			var seat = SEATING_CHART[my_pos][i];
+			seats.splice(seats.indexOf(seat), 1);
+			draw_score_card(seat, [player, "X"]);
+		};
+		for (var j in seats) {
+			var s = seats[j];
+			draw_card("?", null, null, "#score #" + s);
+		};
+	};
+	
+	draw_score_card = function(pos, play) {
+		var player = play[0];
+		var card = play[1];
+		var sel = "#score #" + pos;
+		$(sel + " .card").remove();
+		var c = draw_card(card, null, null, sel);
+		if (pos == "partner") {
+			var color = "#0066AA";
+			var weight = "bold";
+		} else {
+			var color = "black";
+			var weight = "normal";
+		};
+		$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 13px; font-weight: ' + weight + '; color: ' + color + '">' + player + '</div>');
 	};
 	
 	var update_scores = function() {
 		var my_score = GAME.scores[HANDLE];
 		var their_score = GAME.points_earned - my_score;
-		var left = 13 - GAME.finished_tricks.length;
+		var remaining = 13 - GAME.finished_tricks.length;
 		$("#good_guys").html(my_score);
 		$("#bad_guys").html(their_score);
-		$("#left").html(left);
+		$("#remaining").html(remaining);
 	};
 	
 	$(window).bind("beforeunload", function() { 
@@ -190,6 +226,8 @@ $(document).ready(function() {
 			alert("Can't do that until there are four players. Get 'em back here!");
 			return false;
 		};
+		if ($(this).hasClass("inert"))
+			return false;
 		var card = $(this).attr("id");
 		if (GAME.trump == null) {
 			pub("choose_trump", {card: card});
@@ -233,11 +271,15 @@ $(document).ready(function() {
 	</div>
 	
 	<div id="score">
+		<div id="me"></div>
+		<div id="partner"></div>
+		<div id="left"></div>
+		<div id="right"></div>
 	</div>
 	
 	<div id="stats">
 		<span id="good_guys">4</span> -
 		<span id="bad_guys">5</span>
-		<em>with <span id="left">12</span> tricks left</em>
+		<em>with <span id="remaining">12</span> tricks left</em>
 	</div>
 </div>

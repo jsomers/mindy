@@ -41,7 +41,7 @@ class Match
   
   def initialize(id, name=nil)
     @id = id
-    @name = name
+    @name = name || id
     @deck = build_and_shuffle_deck
     @hands = {}
     @players = []
@@ -89,6 +89,7 @@ class Match
     if !self.started?
       @players.delete(handle)
       @hands.delete(handle)
+      @scores.delete(handle)
       @current_player = @players.sample if @current_player == handle
     else
       empty_their_seat(handle)

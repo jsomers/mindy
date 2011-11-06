@@ -12,9 +12,16 @@ class MatchesController < ApplicationController
   end
   
   def play
-    if !session[:handle] || (session[:handle].include? "guest_")
-      redirect_to "/handle?match_id=#{params[:id]}"
+    id = params[:id]
+    if !session[:handle] || session[:handle].blank?
+      redirect_to "/handle?match_id=#{id}"
     end
+    match = rget(@match_id)
+    if !match
+      match = Match.new(id)
+      rset(id, match)
+    end
+    @title = "Mindy Coat: \"#{match.name}\""
   end
   
   def register
@@ -91,7 +98,7 @@ class MatchesController < ApplicationController
   
   def get_match_params
     @match_id = (params[:id])
-    @handle = (session[:handle] ||= "guest_#{rand(1000000000)}")
+    @handle = (session[:handle])
   end
   
   def publish(channel, content)
