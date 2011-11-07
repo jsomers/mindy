@@ -1,4 +1,4 @@
-The winners were <strong><%= @match.scores.sort {|a, b| b[1] <=> a[1]}.first(2).collect {|s| s.first}.to_sentence %></strong>. <a href="/">Click here to play again.</a>
+The winners were <strong><%= @match.scores.sort {|a, b| b[1] <=> a[1]}.first(2).collect {|s| s.first}.to_sentence %></strong>. <a href="/matches/play/<%= @match.id %>">Click here to play again.</a>
 
 <div id="card_template" class="card" style="left:30em;top:0em;display:none;z-index:10">
   <div class="front">

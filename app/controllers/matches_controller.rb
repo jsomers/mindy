@@ -17,7 +17,7 @@ class MatchesController < ApplicationController
       redirect_to "/handle?match_id=#{id}"
     end
     match = rget(@match_id)
-    if !match
+    if !match || match.finished?
       match = Match.new(id)
       rset(id, match)
     end
