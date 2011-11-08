@@ -37,6 +37,19 @@ Undo some of the iptables stuff to allow port 8080.
 
 TODO: re-close some of the iptables.
 
-TODO: juggernaut as a background process.
-
 TODO: git hooks.
+
+## Juggernaut as a background process.
+
+Use the guide here: https://gist.github.com/1055322.
+And here: http://www.victorysawesome.com/blog/2011/05/18/using-monit-node-js-and-juggernaut-2-as-a-daemon/.
+Try `sudo monit start juggernaut` and fight through errors. Permissions may be the problem. `sudo chmod a+rwx /var/...` for the pid file, for example.
+Key is to use the "/etc/init.d/juggernaut start" in the monit /conf.d/juggernaut file.
+
+## On deploy
+
+1. git push, git pull.
+2. redis-server &
+3. juggernaut &
+4. precompile assets.
+5. sudo ~/nginx/sbin/nginx -s reload

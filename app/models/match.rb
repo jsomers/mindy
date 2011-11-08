@@ -123,20 +123,18 @@ class Match
     @cards_played << [player, card]
     @hands[player].delete(card)
     @current_trick << [player, card]
-    if @current_trick.length == 4 && @finished_tricks.length == 12
-      @finished_tricks << @current_trick
-      update_score
-      @current_trick = []
-      @finished_at = DateTime.now
-    end
-    if @current_trick.length == 5
-      last = @current_trick.pop
-      @finished_tricks << @current_trick
-      update_score
-      @current_trick = [last]
-    end
     update_current_player
+    if @current_trick.length == 4
+      finish_trick!
+      @finished_at = DateTime.now if @finished_tricks.length == 12
+    end
     save!
+  end
+  
+  def finish_trick!
+    @finished_tricks << @current_trick
+    @current_player = update_score_and_return_winning_player
+    @current_trick = []
   end
   
   def started?
@@ -178,7 +176,7 @@ class Match
     end
   end
   
-  def update_score
+  def update_score_and_return_winning_player
     last_trick = @finished_tricks.last
     winning_play = last_trick.sort { |play_a, play_b|
       card_a, card_b = play_a[1], play_b[1]
@@ -189,6 +187,7 @@ class Match
     @scores[winning_player] += pts_to_add
     @scores[@pairs[winning_player]] += pts_to_add
     @points_earned += pts_to_add
+    winning_player
   end
   
   def strength(card)

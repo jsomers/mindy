@@ -62,7 +62,6 @@ $(document).ready(function() {
 				refresh();
 				break;
 			case "card_played":
-				var latest_play = GAME.current_trick[GAME.current_trick.length - 1];
 				refresh();
 				break;
 			case "game_over":
@@ -133,7 +132,6 @@ $(document).ready(function() {
 		if (is_my_turn())
 			prompt_to_play_card();
 		draw_score_cards();
-		// $("#score #me .card .front").effect("highlight", {color: "yellow"}, 1000);
 		update_scores();
 	};
 	
@@ -162,16 +160,20 @@ $(document).ready(function() {
 	var draw_score_cards = function() {
 		draw_seats();
 		var my_pos = GAME.players.indexOf(HANDLE);
-		for (var i in GAME.current_trick) {
-			var play = GAME.current_trick[i];
+		var trick;
+		if (GAME.current_trick.length == 0 && GAME.finished_tricks.length > 0) {
+			trick = GAME.finished_tricks[GAME.finished_tricks.length - 1];
+			setTimeout("draw_seats()", 2000);
+		} else {
+			trick = GAME.current_trick;
+		};
+		for (var i in trick) {
+			var play = trick[i];
 			var player = play[0];
 			var card = play[1];
 			var seat = SEATING_CHART[my_pos][GAME.players.indexOf(player)];
 			draw_score_card(seat, [player, card]);
 		};
-		if (GAME.current_trick.length == 4) {
-			setTimeout("draw_seats()", 2000);
-		}
 	};
 	
 	draw_seats = function() {
@@ -190,7 +192,7 @@ $(document).ready(function() {
 		};
 	};
 	
-	draw_score_card = function(pos, play) {
+	var draw_score_card = function(pos, play) {
 		var player = play[0];
 		var card = play[1];
 		var sel = "#score #" + pos;
@@ -198,16 +200,7 @@ $(document).ready(function() {
 		var c = draw_card(card, null, null, sel);
 		$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 13px;">' + player + '</div>');
 	};
-	
-	draw_score_card = function(pos, play) {
-		var player = play[0];
-		var card = play[1];
-		var sel = "#score #" + pos;
-		$(sel + " .card").remove();
-		var c = draw_card(card, null, null, sel);
-		$(c).append('<div class="score_card_name" style="position: relative; top: 95px; left: 15px; font-size: 13px;">' + player + '</div>');
-	};
-	
+		
 	var update_scores = function() {
 		var my_score = GAME.scores[HANDLE];
 		var their_score = GAME.points_earned - my_score;
