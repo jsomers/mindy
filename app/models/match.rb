@@ -126,7 +126,7 @@ class Match
     update_current_player
     if @current_trick.length == 4
       finish_trick!
-      @finished_at = DateTime.now if @finished_tricks.length == 12
+      @finished_at = DateTime.now if @finished_tricks.length == 13
     end
     save!
   end
