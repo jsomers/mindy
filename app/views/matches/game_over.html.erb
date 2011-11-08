@@ -9,7 +9,7 @@ The winners were <strong><%= @match.scores.sort {|a, b| b[1] <=> a[1]}.first(2).
   </div> 
 </div>
 
-<h3>Hand History (<%= raw({"h" => "&hearts;", "s" => "&spades;", "d" => "&diams;", "c" => "&clubs;"}[@match.trump]) %>)</h3>
+<h3>Hand History (<span style="color: <%= (["h", "d"].include? @match.trump) ? "#ff0000" : "#000000" %>"><%= raw({"h" => "&hearts;", "s" => "&spades;", "d" => "&diams;", "c" => "&clubs;"}[@match.trump]) %></span>)</h3>
 <% (0..12).each do |i| %>
 	<div id="trick_<%= i %>" class="history" style="position: relative; top: <%= "#{i * 120}px" %>;"></div><br/>
 <% end %>
