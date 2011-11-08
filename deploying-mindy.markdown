@@ -51,5 +51,5 @@ Key is to use the "/etc/init.d/juggernaut start" in the monit /conf.d/juggernaut
 1. git push, git pull.
 2. redis-server &
 3. juggernaut &
-4. precompile assets.
+4. bundle exec rake assets:precompile
 5. sudo ~/nginx/sbin/nginx -s reload
