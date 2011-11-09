@@ -200,7 +200,8 @@ $(document).ready(function() {
 		var sel = "#score #" + pos;
 		$(sel + " .card").remove();
 		var c = draw_card(card, null, null, sel);
-		$(c).append('<div class="score_card_name" style="position: relative; top: 95px; font-size: 13px;">' + player + '</div>');
+		var extra_style = (player == GAME.current_player ? "color: #ff0000; font-size: 16px; font-weight: bold;" : "color: #000000; font-size: 13px;");
+		$(c).append('<div class="score_card_name" style="position: relative; top: 95px; ' + extra_style + '">' + player + '</div>');
 	};
 		
 	var update_scores = function() {
