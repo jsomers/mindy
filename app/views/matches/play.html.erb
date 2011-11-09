@@ -219,7 +219,9 @@ $(document).ready(function() {
 	
 	// Remove me from the game when I close the window.
 	$(window).unload(function () {
-	 	pub("part", {handle: HANDLE});
+		if (GAME.finished_at == null) {
+	 		pub("part", {handle: HANDLE});
+		};
 	});
 	
 	$(".card").live("dblclick", function() {
