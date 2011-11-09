@@ -8,14 +8,10 @@ Problems with sqlite3? `bundle config build.sqlite3 --with-sqlite3-include=/usr/
 
 ## TODOs
 
-* Make it clearer whose turn it is.
-* Front page: type in a game code and go straight to that game.
-* Trump choice and pairs not random?
-* Refreshing the page will redraw in a weird way when the trick is done?
 * Alternate suits in suit order always.
-* Game over didn't let us play the last trick.
-* [empty][thelib] on game over screen? (because the players have left the game?)
+* "1 tricks left"
 * Flash the tab to pull focus back to the game if someone's doing another task in another browser tab.
+
 * Stats, analytics, and cleaning up orphan games (cron job that calls rake task).
 * Make a robot that plays the highest legal card, for testing purposes.
 * People with the same handle?
