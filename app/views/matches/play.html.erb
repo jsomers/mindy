@@ -41,7 +41,7 @@ $(document).ready(function() {
 				logger("<code>" + data.player + "</code> has successfully registered. Waiting for " + players_left + " more player" + (players_left == 1 ? "" : "s") + ".");
 				draw_seats();
 				if (GAME.current_player)
-					refresh();
+					refresh(true);
 				break;
 			case "start":
 				logger("There are now four players and the game has begun. It is <code>" + GAME.current_player + "</code>'s turn to choose trump.");
@@ -51,7 +51,7 @@ $(document).ready(function() {
 				break;
 			case "part":
 				logger("<code>" + data.player + "</code> has left the game.");
-				draw_seats();
+				refresh(true);
 				break;
 			case "trump_chosen":
 				logger("<code>" + GAME.current_player + "</code> has chosen <strong>" + SUITS[GAME.trump] + "</strong> as trump. Let the game begin!");
@@ -125,13 +125,14 @@ $(document).ready(function() {
 		return HANDLE == GAME.current_player;
 	};
 	
-	var refresh = function() {
+	var refresh = function(part_or_return) {
+		if (part_or_return == null) { part_or_return = false };
 		if (GAME.trump) {
 			draw_my_hand();
 		};
 		if (is_my_turn())
 			prompt_to_play_card();
-		draw_score_cards();
+		draw_score_cards(part_or_return);
 		update_scores();
 	};
 	
@@ -157,11 +158,12 @@ $(document).ready(function() {
 		return (my_suits.indexOf(lead_suit) != -1);
 	};
 	
-	var draw_score_cards = function() {
+	var draw_score_cards = function(part_or_return) {
+		if (part_or_return == null) { part_or_return = false }
 		draw_seats();
 		var my_pos = GAME.players.indexOf(HANDLE);
 		var trick;
-		if (GAME.current_trick.length == 0 && GAME.finished_tricks.length > 0) {
+		if (GAME.current_trick.length == 0 && GAME.finished_tricks.length > 0 && !part_or_return) {
 			trick = GAME.finished_tricks[GAME.finished_tricks.length - 1];
 			setTimeout("draw_seats()", 2000);
 		} else {
