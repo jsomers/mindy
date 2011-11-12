@@ -12,7 +12,8 @@ Problems with sqlite3? `bundle config build.sqlite3 --with-sqlite3-include=/usr/
 * "1 tricks left"
 * Flash the tab to pull focus back to the game if someone's doing another task in another browser tab.
 
-* Stats, analytics, and cleaning up orphan games (cron job that calls rake task).
+* Stats & analytics
+* Cleaning up orphan games (cron job that calls rake task).
 * Make a robot that plays the highest legal card, for testing purposes.
 * People with the same handle?
 

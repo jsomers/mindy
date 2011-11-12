@@ -126,7 +126,7 @@ class Match
     update_current_player
     if @current_trick.length == 4
       finish_trick!
-      @finished_at = DateTime.now if @finished_tricks.length == 13
+      finish_the_match! if @finished_tricks.length == 13
     end
     save!
   end
@@ -135,6 +135,13 @@ class Match
     @finished_tricks << @current_trick
     @current_player = update_score_and_return_winning_player
     @current_trick = []
+  end
+  
+  def finish_the_match!
+    @finished_at = DateTime.now
+    histories = JSON.parse( $redis.get("histories") )
+    histories.push(@finished_tricks)
+    $redis.set("histories", histories.to_json)
   end
   
   def started?
